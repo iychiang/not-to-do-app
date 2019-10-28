@@ -1,16 +1,49 @@
-import React from 'react';
+import React, { useState } from "react";
 
-class ListItem extends React.Component {
-    render() {
-        return (
-            <div style={{ display: 'flex', justifyContent: 'center'}}>
-                <div>
-                    {this.props.itemText}
-                </div>
-                <button onClick={() => this.props.handleRemove(this.props.itemText)}>Remove</button>
-            </div>
-        )
-    }
-}
+const ListItem = ({ handleUpdate, handleRemove, item, key }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [text, setText] = useState(item.todo);
+
+  return !isEditing ? (
+    <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div>{item.todo}</div>
+      <div>
+        <button
+          className="btn btn-secondary"
+          onClick={() => setIsEditing(true)}
+        >
+          Edit
+        </button>
+        <button
+          className="btn btn-secondary"
+          onClick={() => handleRemove({ todo: text })}
+        >
+          Remove
+        </button>
+      </div>
+    </div>
+  ) : (
+    <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <input onChange={e => setText(e.target.value)} value={text} />
+      <div>
+        <button
+          className="btn btn-secondary"
+          onClick={() => {
+            handleUpdate(item, { todo: text, key: item.key });
+            setIsEditing(false);
+          }}
+        >
+          Save
+        </button>
+        <button
+          className="btn btn-secondary"
+          onClick={() => setIsEditing(false)}
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  );
+};
 
 export default ListItem;
