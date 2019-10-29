@@ -58,17 +58,19 @@ function App() {
           </div>
         )}
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <input
-            type="input"
-            value={inputText}
-            onChange={e => handleChange(e.target.value)}
-          />
-          <button
-            className="btn btn-primary"
-            onClick={() => handleAddItem({ todo: inputText })}
-          >
-            Add new
-          </button>
+          <form onSubmit={e => e.preventDefault()}>
+            <input
+              type="input"
+              value={inputText}
+              onChange={e => handleChange(e.target.value)}
+            />
+            <button
+              className="btn btn-primary btn-sm"
+              onClick={() => handleAddItem({ todo: inputText })}
+            >
+              Add new
+            </button>
+          </form>
         </div>
       </div>
     </div>
