@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import ListItem from "./ListItem.jsx";
 
@@ -6,6 +6,14 @@ function App() {
   const [inputText, setInputText] = useState("");
   const [masterList, setMasterList] = useState([]);
   let [key, setKey] = useState(0);
+
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/todos")
+      .then(res => res.json())
+      .then(res => setMasterList(res.filter(item => item.id < 10)));
+  }, []);
+
+  console.log("masterList", masterList);
 
   const handleAddItem = newItem => {
     newItem.key = key;
@@ -32,14 +40,14 @@ function App() {
 
   const handleRemove = removeItem => {
     let newMasterList = masterList.filter(
-      item => item.todo !== removeItem.todo
+      item => item.title !== removeItem.title
     );
     setMasterList(newMasterList);
   };
 
   return (
     <div className="App">
-      <div className="card" style={{ width: 400, margin: "auto" }}>
+      <div className="card" style={{ width: 600, margin: "auto" }}>
         <h3 className="card-title">Not to do list</h3>
         {masterList.length === 0 ? (
           <div>To get started, add something you never want to do again!</div>
@@ -66,7 +74,7 @@ function App() {
             />
             <button
               className="btn btn-primary btn-sm"
-              onClick={() => handleAddItem({ todo: inputText })}
+              onClick={() => handleAddItem({ title: inputText })}
             >
               Add new
             </button>

@@ -2,11 +2,11 @@ import React, { useState } from "react";
 
 const ListItem = ({ handleUpdate, handleRemove, item, key }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [text, setText] = useState(item.todo);
+  const [text, setText] = useState(item.title);
 
   return !isEditing ? (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <div>{item.todo}</div>
+      <div>{item.title}</div>
       <div>
         <button
           className="btn btn-light btn-sm"
@@ -16,7 +16,7 @@ const ListItem = ({ handleUpdate, handleRemove, item, key }) => {
         </button>
         <button
           className="btn btn-light btn-sm"
-          onClick={() => handleRemove({ todo: text })}
+          onClick={() => handleRemove({ title: text })}
         >
           Remove
         </button>
@@ -29,7 +29,7 @@ const ListItem = ({ handleUpdate, handleRemove, item, key }) => {
         <button
           className="btn btn-light btn-sm"
           onClick={() => {
-            handleUpdate(item, { todo: text, key: item.key });
+            handleUpdate(item, { title: text, key: item.key });
             setIsEditing(false);
           }}
         >
