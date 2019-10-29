@@ -9,13 +9,13 @@ const ListItem = ({ handleUpdate, handleRemove, item, key }) => {
       <div>{item.todo}</div>
       <div>
         <button
-          className="btn btn-secondary"
+          className="btn btn-light btn-sm"
           onClick={() => setIsEditing(true)}
         >
           Edit
         </button>
         <button
-          className="btn btn-secondary"
+          className="btn btn-light btn-sm"
           onClick={() => handleRemove({ todo: text })}
         >
           Remove
@@ -27,7 +27,7 @@ const ListItem = ({ handleUpdate, handleRemove, item, key }) => {
       <input onChange={e => setText(e.target.value)} value={text} />
       <div>
         <button
-          className="btn btn-secondary"
+          className="btn btn-light btn-sm"
           onClick={() => {
             handleUpdate(item, { todo: text, key: item.key });
             setIsEditing(false);
@@ -36,7 +36,7 @@ const ListItem = ({ handleUpdate, handleRemove, item, key }) => {
           Save
         </button>
         <button
-          className="btn btn-secondary"
+          className="btn btn-light btn-sm"
           onClick={() => setIsEditing(false)}
         >
           Cancel
