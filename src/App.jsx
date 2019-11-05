@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Button, Container } from "semantic-ui-react";
 import "./App.css";
 import ListItem from "./ListItem.jsx";
 
@@ -12,8 +13,6 @@ function App() {
       .then(res => res.json())
       .then(res => setMasterList(res.filter(item => item.id < 10)));
   }, []);
-
-  console.log("masterList", masterList);
 
   const handleAddItem = newItem => {
     newItem.key = key;
@@ -46,13 +45,13 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <div className="card" style={{ width: 600, margin: "auto" }}>
-        <h3 className="card-title">Not to do list</h3>
+    <Container className="App">
+      <Container style={{ width: 600, margin: "auto" }}>
+        <h2>Not to do list</h2>
         {masterList.length === 0 ? (
           <div>To get started, add something you never want to do again!</div>
         ) : (
-          <div className="card-text">
+          <Container>
             {masterList.map(item => (
               <ListItem
                 item={item}
@@ -63,25 +62,28 @@ function App() {
                 key={item.key}
               />
             ))}
-          </div>
+          </Container>
         )}
-        <div style={{ display: "flex", justifyContent: "center" }}>
+        <Container
+          style={{ display: "flex", justifyContent: "center", marginTop: 20 }}
+        >
           <form onSubmit={e => e.preventDefault()}>
             <input
               type="input"
               value={inputText}
               onChange={e => handleChange(e.target.value)}
             />
-            <button
-              className="btn btn-primary btn-sm"
+            <Button
+              primary
+              style={{ marginLeft: 5 }}
               onClick={() => handleAddItem({ title: inputText })}
             >
               Add new
-            </button>
+            </Button>
           </form>
-        </div>
-      </div>
-    </div>
+        </Container>
+      </Container>
+    </Container>
   );
 }
 

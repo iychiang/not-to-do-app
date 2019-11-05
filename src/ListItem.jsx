@@ -1,48 +1,40 @@
 import React, { useState } from "react";
+import { Button, Container } from "semantic-ui-react";
 
 const ListItem = ({ handleUpdate, handleRemove, item, key }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [text, setText] = useState(item.title);
 
   return !isEditing ? (
-    <div style={{ display: "flex", justifyContent: "space-between" }}>
+    <Container style={{ display: "flex", justifyContent: "space-between" }}>
       <div>{item.title}</div>
       <div>
-        <button
-          className="btn btn-light btn-sm"
-          onClick={() => setIsEditing(true)}
-        >
+        <Button basic onClick={() => setIsEditing(true)}>
           Edit
-        </button>
-        <button
-          className="btn btn-light btn-sm"
-          onClick={() => handleRemove({ title: text })}
-        >
+        </Button>
+        <Button basic onClick={() => handleRemove({ title: text })}>
           Remove
-        </button>
+        </Button>
       </div>
-    </div>
+    </Container>
   ) : (
-    <div style={{ display: "flex", justifyContent: "space-between" }}>
+    <Container style={{ display: "flex", justifyContent: "space-between" }}>
       <input onChange={e => setText(e.target.value)} value={text} />
       <div>
-        <button
-          className="btn btn-light btn-sm"
+        <Button
+          basic
           onClick={() => {
             handleUpdate(item, { title: text, key: item.key });
             setIsEditing(false);
           }}
         >
           Save
-        </button>
-        <button
-          className="btn btn-light btn-sm"
-          onClick={() => setIsEditing(false)}
-        >
+        </Button>
+        <Button basic onClick={() => setIsEditing(false)}>
           Cancel
-        </button>
+        </Button>
       </div>
-    </div>
+    </Container>
   );
 };
 
