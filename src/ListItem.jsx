@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Container } from "semantic-ui-react";
+import { Button, Container, Input } from "semantic-ui-react";
 
 const ListItem = ({ handleUpdate, handleRemove, item, key }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -7,19 +7,19 @@ const ListItem = ({ handleUpdate, handleRemove, item, key }) => {
 
   return !isEditing ? (
     <Container style={{ display: "flex", justifyContent: "space-between" }}>
-      <div>{item.title}</div>
+      <div className="list-item">{item.title}</div>
       <div>
-        <Button basic onClick={() => setIsEditing(true)}>
+        <Button basic size="tiny" onClick={() => setIsEditing(true)}>
           Edit
         </Button>
-        <Button basic onClick={() => handleRemove({ title: text })}>
+        <Button basic size="tiny" onClick={() => handleRemove({ title: text })}>
           Remove
         </Button>
       </div>
     </Container>
   ) : (
     <Container style={{ display: "flex", justifyContent: "space-between" }}>
-      <input onChange={e => setText(e.target.value)} value={text} />
+      <Input onChange={e => setText(e.target.value)} value={text} />
       <div>
         <Button
           basic

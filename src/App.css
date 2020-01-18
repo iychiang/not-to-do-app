@@ -17,3 +17,7 @@
 .App-link {
   color: #09d3ac;
 }
+
+.list-item {
+  text-decoration: line-through;
+}
