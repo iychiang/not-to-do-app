@@ -1,47 +1,45 @@
 import React from "react";
 import { Button, Container, Input, Form, Divider } from "semantic-ui-react";
 import { connect } from "react-redux";
-import { addNotTodo, handleInputChange } from "./actions";
+import {
+  addNotTodo,
+  handleInputChange,
+  toggleIsEditing,
+  handleRemove,
+  handleUpdate
+} from "./actions";
 import "./App.css";
 import ListItem from "./ListItem.jsx";
 
-const NotToDoApp = ({ todos, addNotTodo, handleInputChange, input }) => {
-  // let [key, setKey] = useState(0);
-
-  // const handleUpdate = (oldItem, newItem) => {
-  //   let newList = [...masterList];
-  //   let updatedItem = {
-  //     ...oldItem,
-  //     ...newItem
-  //   };
-
-  //   let index = masterList.findIndex(item => item.key === updatedItem.key);
-  //   newList.splice(index, 1, updatedItem);
-  // };
-
-  // const handleRemove = removeItem => {
-  //   let newMasterList = masterList.filter(
-  //     item => item.title !== removeItem.title
-  //   );
-  // };
-
+const NotToDoApp = ({
+  main,
+  addNotTodo,
+  handleInputChange,
+  handleRemove,
+  handleUpdate,
+  input,
+  toggleIsEditing
+}) => {
   return (
     <Container className="App">
       <Container style={{ width: 600, margin: "auto" }}>
         <h2>Not to do list</h2>
-        {todos.length === 0 ? (
+        {main.length === 0 ? (
           <div>To get started, add something you never want to do again!</div>
         ) : (
           <Container>
-            {todos.map(item => (
+            {main.map(item => (
               <>
                 <ListItem
                   item={item}
-                  // handleRemove={handleRemove}
+                  handleRemove={handleRemove}
                   handleAddItem={addNotTodo}
-                  handleChange={handleInputChange}
-                  // handleUpdate={handleUpdate}
-                  key={item.key}
+                  handleInputChange={handleInputChange}
+                  toggleEdit={toggleIsEditing}
+                  isEditing={item.isEditing}
+                  handleUpdate={handleUpdate}
+                  input={input}
+                  key={item.id}
                 />
                 <Divider />
               </>
@@ -51,15 +49,24 @@ const NotToDoApp = ({ todos, addNotTodo, handleInputChange, input }) => {
         <Container
           style={{ display: "flex", justifyContent: "center", marginTop: 20 }}
         >
-          <Form onSubmit={() => addNotTodo({ title: input })}>
-            <Input
-              type="input"
-              value={input}
-              onChange={e => handleInputChange(e.target.value)}
-            />
-            <Button color="red" style={{ marginLeft: 5 }}>
-              Never again!
-            </Button>
+          <Form
+            onSubmit={() => {
+              addNotTodo(input);
+              handleInputChange("");
+            }}
+          >
+            {!main.some(el => el.isEditing) && (
+              <>
+                <Input
+                  type="input"
+                  value={input}
+                  onChange={e => handleInputChange(e.target.value)}
+                />
+                <Button color="red" style={{ marginLeft: 5 }}>
+                  Never again!
+                </Button>
+              </>
+            )}
           </Form>
         </Container>
       </Container>
@@ -69,10 +76,14 @@ const NotToDoApp = ({ todos, addNotTodo, handleInputChange, input }) => {
 
 const mapStateToProps = state => {
   return {
-    todos: state.main.todos,
-    input: state.main.input
+    main: state.main,
+    input: state.input
   };
 };
-export default connect(mapStateToProps, { addNotTodo, handleInputChange })(
-  NotToDoApp
-);
+export default connect(mapStateToProps, {
+  addNotTodo,
+  handleInputChange,
+  toggleIsEditing,
+  handleRemove,
+  handleUpdate
+})(NotToDoApp);

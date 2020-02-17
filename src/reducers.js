@@ -1,31 +1,58 @@
 import { combineReducers } from "redux";
+import shortid from "shortid";
 
-const initialState = {
-  todos: [],
-  input: ""
-};
-function mainReducer(state = initialState, action) {
+function todoReducer(state = [], action) {
   switch (action.type) {
     case "ADD_NOTTODO":
-      return {
+      return [
         ...state,
-        todos: [...state.todos, { title: action.payload.title }],
-        input: ""
-      };
-
-    case "INPUT_CHANGED":
-      return { ...state, input: action.payload };
+        {
+          id: shortid.generate(),
+          title: action.payload,
+          isEditing: false
+        }
+      ];
     case "TOGGLE_NOTTODO":
       break;
-    case "SET_IS_EDITING":
-      break;
+    case "TOGGLE_IS_EDITING":
+      let stateCopy = [...state];
+      let index = stateCopy.findIndex(todo => todo.id === action.payload.id);
+
+      stateCopy[index].isEditing = action.payload.isEditing;
+
+      return stateCopy;
+
+    case "HANDLE_UPDATE":
+      let copy = [...state];
+      let itemIndex = copy.findIndex(obj => obj.id === action.payload.id);
+
+      copy.splice(itemIndex, 1, {
+        ...copy[itemIndex],
+        title: action.payload.title,
+        isEditing: false
+      });
+
+      return copy;
+
+    case "REMOVE_NOTTODO":
+      return state.filter(todo => todo.id !== action.payload);
+
     default:
       return state;
   }
 }
 
+const inputReducer = (state = "", action) => {
+  if (action.type === "INPUT_CHANGED") {
+    return action.payload;
+  }
+
+  return state;
+};
+
 const rootReducer = combineReducers({
-  main: mainReducer
+  main: todoReducer,
+  input: inputReducer
 });
 
 export default rootReducer;
