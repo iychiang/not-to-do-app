@@ -1,36 +1,43 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Container, Input } from "semantic-ui-react";
 
-const ListItem = ({ handleUpdate, handleRemove, item, key }) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [text, setText] = useState(item.title);
-
+const ListItem = ({
+  handleUpdate,
+  handleRemove,
+  handleInputChange,
+  item,
+  input,
+  toggleEdit,
+  isEditing
+}) => {
   return !isEditing ? (
     <Container style={{ display: "flex", justifyContent: "space-between" }}>
       <div className="list-item">{item.title}</div>
       <div>
-        <Button basic size="tiny" onClick={() => setIsEditing(true)}>
+        <Button basic size="tiny" onClick={() => toggleEdit(true, item.id)}>
           Edit
         </Button>
-        <Button basic size="tiny" onClick={() => handleRemove({ title: text })}>
+        <Button basic size="tiny" onClick={() => handleRemove(item.id)}>
           Remove
         </Button>
       </div>
     </Container>
   ) : (
     <Container style={{ display: "flex", justifyContent: "space-between" }}>
-      <Input onChange={e => setText(e.target.value)} value={text} />
+      <Input onChange={e => handleInputChange(e.target.value)} value={input} />
       <div>
         <Button
           basic
+          size="tiny"
           onClick={() => {
-            handleUpdate(item, { title: text, key: item.key });
-            setIsEditing(false);
+            handleUpdate(item.id, input);
+            handleInputChange("");
+            toggleEdit(false, item.id);
           }}
         >
           Save
         </Button>
-        <Button basic onClick={() => setIsEditing(false)}>
+        <Button basic size="tiny" onClick={() => toggleEdit(false, item.id)}>
           Cancel
         </Button>
       </div>
