@@ -14,10 +14,20 @@ const ListItem = ({
     <Container style={{ display: "flex", justifyContent: "space-between" }}>
       <div className="list-item">{item.title}</div>
       <div>
-        <Button basic size="tiny" onClick={() => toggleEdit(true, item.id)}>
+        <Button
+          basic
+          size="tiny"
+          color="blue"
+          onClick={() => toggleEdit(true, item.id)}
+        >
           Edit
         </Button>
-        <Button basic size="tiny" onClick={() => handleRemove(item.id)}>
+        <Button
+          basic
+          size="tiny"
+          color="red"
+          onClick={() => handleRemove(item.id)}
+        >
           Remove
         </Button>
       </div>
@@ -29,6 +39,7 @@ const ListItem = ({
         <Button
           basic
           size="tiny"
+          color="green"
           onClick={() => {
             handleUpdate(item.id, input);
             handleInputChange("");
@@ -37,7 +48,12 @@ const ListItem = ({
         >
           Save
         </Button>
-        <Button basic size="tiny" onClick={() => toggleEdit(false, item.id)}>
+        <Button
+          basic
+          size="tiny"
+          color="grey"
+          onClick={() => toggleEdit(false, item.id)}
+        >
           Cancel
         </Button>
       </div>

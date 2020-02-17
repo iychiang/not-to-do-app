@@ -29,7 +29,7 @@ const NotToDoApp = ({
         ) : (
           <Container>
             {main.map(item => (
-              <>
+              <React.Fragment key={item.id}>
                 <ListItem
                   item={item}
                   handleRemove={handleRemove}
@@ -42,7 +42,7 @@ const NotToDoApp = ({
                   key={item.id}
                 />
                 <Divider />
-              </>
+              </React.Fragment>
             ))}
           </Container>
         )}
